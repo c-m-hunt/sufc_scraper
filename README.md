@@ -1,0 +1,169 @@
+# Southend United FC Match History
+
+Historical match data scraper and database for Southend United Football Club, covering matches from 1909 to present.
+
+## Overview
+
+This project scrapes match data from multiple sources and consolidates them into a SQLite database. The data includes:
+
+- Match date, opposition, venue (H/A/N)
+- Score and result
+- Competition
+- Season
+- Optional: attendance, referee, scorers, lineup
+
+**Current database:** 4,926 matches
+
+## Project Structure
+
+```
+sufc_history/
+├── main.py                 # CLI entry point
+├── data/
+│   ├── matches.db          # SQLite database
+│   ├── all_matches.csv     # Exported CSV
+│   └── all_matches.json    # Exported JSON
+├── models/
+│   └── match.py            # Match dataclass
+├── scrapers/
+│   ├── base.py             # Abstract base scraper
+│   ├── statto.py           # statto.com (1909-2017)
+│   ├── transfermarkt.py    # transfermarkt.co.uk (1910-present)
+│   ├── football_data.py    # football-data.co.uk (1993-present, league only)
+│   └── eleven_v_eleven.py  # 11v11.com (1906-present, requires Playwright)
+├── storage/
+│   └── database.py         # SQLite storage layer
+└── utils/
+    ├── http_client.py      # Rate-limited HTTP client
+    └── season_utils.py     # Season formatting utilities
+```
+
+## Installation
+
+```bash
+# Create virtual environment
+python -m venv .venv
+source .venv/bin/activate  # or .venv\Scripts\activate on Windows
+
+# Install dependencies
+pip install -e .
+
+# For 11v11 scraping (optional, requires browser automation)
+pip install playwright
+playwright install chromium
+```
+
+## Usage
+
+### Scraping Data
+
+```bash
+# Scrape a single season
+python main.py scrape --season 2023
+
+# Scrape a range of seasons
+python main.py scrape --start 2020 --end 2025
+
+# Scrape using a specific source
+python main.py scrape --season 2023 --source transfermarkt
+
+# Scrape all available data
+python main.py scrape --all
+```
+
+**Available sources:** `statto`, `transfermarkt`, `football-data`
+
+### Exporting Data
+
+```bash
+# Export to CSV
+python main.py export --format csv -o data/all_matches.csv
+
+# Export to JSON
+python main.py export --format json -o data/all_matches.json
+```
+
+### Viewing Statistics
+
+```bash
+python main.py stats
+```
+
+Output:
+```
+Total matches: 4926
+
+Season Summary:
+----------------------------------------------------------------------
+Season        Matches    W    D    L    GF    GA
+----------------------------------------------------------------------
+2016-2017          52   20   12   20    75    77
+...
+```
+
+## Data Sources
+
+| Source | Coverage | Notes |
+|--------|----------|-------|
+| [statto.com](https://statto.com) | 1909-2017 | Primary historical source |
+| [transfermarkt.co.uk](https://transfermarkt.co.uk) | 1910-present | Modern era, includes attendance/referee |
+| [football-data.co.uk](https://football-data.co.uk) | 1993-present | League matches only |
+| [11v11.com](https://11v11.com) | 1906-present | Requires Playwright for Cloudflare bypass |
+
+## Using 11v11 Scraper
+
+The 11v11.com website uses Cloudflare protection, requiring browser automation:
+
+```python
+from scrapers.eleven_v_eleven import ElevenVElevenScraper, fetch_with_playwright
+from storage.database import Database
+
+# Fetch HTML using Playwright
+html = fetch_with_playwright(2023)  # Start year of season
+
+# Parse and store
+scraper = ElevenVElevenScraper()
+scraper.set_html_for_season(2023, html)
+matches = scraper.scrape_season(2023)
+
+db = Database("data/matches.db")
+for match in matches:
+    db.upsert_match(match)
+```
+
+Or use Claude Code with the Playwright MCP to navigate to `https://www.11v11.com/teams/southend-united/tab/matches/season/YEAR/` and extract table data directly.
+
+## Data Model
+
+Each match contains:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| date | date | Match date |
+| opposition | str | Opponent team name |
+| venue | H/A/N | Home, Away, or Neutral |
+| goals_for | int | Southend goals scored |
+| goals_against | int | Opposition goals scored |
+| competition | str | Competition name |
+| season | str | Season (e.g., "2023-2024") |
+| attendance | int? | Match attendance |
+| referee | str? | Referee name |
+| scorers | list? | Goal scorers |
+| lineup | list? | Starting lineup |
+| source | str | Data source name |
+
+## Database Schema
+
+The SQLite database uses an upsert strategy with a unique constraint on `(date, opposition, competition)` to handle data from multiple sources without duplicates.
+
+## Rate Limiting
+
+All scrapers include rate limiting to be respectful to source websites:
+- Default: 2.0 seconds between requests
+- Transfermarkt: 3.0 seconds (stricter)
+- Random user agent rotation
+- Exponential backoff on failures
+
+## License
+
+MIT
