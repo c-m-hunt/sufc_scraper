@@ -2,7 +2,7 @@
 
 ## Overview
 
-This database contains **4,829 matches** spanning from 1910 to the present day (January 2026).
+This database contains **4,875 matches** spanning from 1910 to the present day (January 2026).
 
 ### Data Sources
 
@@ -10,6 +10,7 @@ This database contains **4,829 matches** spanning from 1910 to the present day (
 |--------|----------|--------------|
 | statto.com | 1909-2017 | Good - includes competition names |
 | Transfermarkt | 2017-2026 | Good - includes competition names, attendance |
+| 11v11.com | 1906-2026 | Good - fills gaps in other sources |
 
 ### Key Statistics
 
@@ -81,7 +82,7 @@ This database contains **4,829 matches** spanning from 1910 to the present day (
 | 1972-1973 | 46 | 1 | 2 | - | - | 49 | |
 | 1973-1974 | 46 | 3 | 1 | - | - | 50 | |
 | 1974-1975 | 46 | 4 | 2 | - | - | 52 | |
-| **1975-1976** | - | 5 | 2 | - | - | **7** | **LEAGUE DATA MISSING** |
+| 1975-1976 | 46 | 5 | 2 | - | - | 53 | Relegated to Fourth Division |
 | 1976-1977 | 46 | 4 | 2 | - | - | 52 | Fourth Division |
 | 1977-1978 | 46 | 4 | 2 | - | - | 52 | Promoted |
 | 1978-1979 | 46 | 5 | 2 | - | - | 53 | |
@@ -152,7 +153,6 @@ This database contains **4,829 matches** spanning from 1910 to the present day (
 |--------|-------|
 | 1909-1920 | Only FA Cup matches recorded (Southern League data not available) |
 | 1922-1925 | FA Cup matches likely missing |
-| 1975-1976 | Only 7 matches recorded - league data missing |
 | 2015-2016 | 7 league matches missing |
 | 2016-2017 | FA Cup and Trophy matches missing |
 | 2019-2020 | Season curtailed due to COVID-19 (35 of 46 league games) |
@@ -210,5 +210,5 @@ This database contains **4,829 matches** spanning from 1910 to the present day (
 ---
 
 *Data collected: January 2026*
-*Sources: statto.com, Transfermarkt*
-*Total matches: 4,829*
+*Sources: statto.com, Transfermarkt, 11v11.com*
+*Total matches: 4,875*
