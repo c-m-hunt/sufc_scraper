@@ -2,7 +2,7 @@
 
 ## Overview
 
-This database contains **4,875 matches** spanning from 1910 to the present day (January 2026).
+This database contains **4,933 matches** spanning from 1910 to the present day (January 2026).
 
 ### Data Sources
 
@@ -15,7 +15,7 @@ This database contains **4,875 matches** spanning from 1910 to the present day (
 ### Key Statistics
 
 - **First recorded match**: 15 January 1910 (FA Cup vs Gainsborough Trinity)
-- **Total matches**: 4,829
+- **Total matches**: 4,933
 - **Seasons covered**: 105 (with gaps during WWI and WWII)
 
 ---
@@ -122,8 +122,8 @@ This database contains **4,875 matches** spanning from 1910 to the present day (
 | 2012-2013 | 46 | 3 | 1 | 4 | 4 | 58 | |
 | 2013-2014 | 48 | 4 | 1 | 1 | - | 54 | Playoffs |
 | 2014-2015 | 48 | 1 | 1 | 1 | - | 51 | Promoted |
-| 2015-2016 | 39 | 1 | 1 | 3 | - | 44 | *7 league matches missing* |
-| 2016-2017 | 44 | - | 1 | - | - | 45 | *FA Cup/Trophy missing* |
+| 2015-2016 | 46 | 1 | 1 | 3 | - | 51 | |
+| 2016-2017 | 46 | 1 | 1 | 4 | - | 52 | |
 | 2017-2018 | 46 | 1 | 1 | 4 | - | 52 | |
 | 2018-2019 | 46 | 2 | 1 | 4 | - | 53 | |
 | 2019-2020 | 35 | 1 | 2 | 3 | - | 41 | COVID-19 curtailed |
@@ -153,8 +153,6 @@ This database contains **4,875 matches** spanning from 1910 to the present day (
 |--------|-------|
 | 1909-1920 | Only FA Cup matches recorded (Southern League data not available) |
 | 1922-1925 | FA Cup matches likely missing |
-| 2015-2016 | 7 league matches missing |
-| 2016-2017 | FA Cup and Trophy matches missing |
 | 2019-2020 | Season curtailed due to COVID-19 (35 of 46 league games) |
 | 2021-2025 | Some FA Cup/Trophy matches may be missing from National League era |
 
@@ -211,4 +209,4 @@ This database contains **4,875 matches** spanning from 1910 to the present day (
 
 *Data collected: January 2026*
 *Sources: statto.com, Transfermarkt, 11v11.com*
-*Total matches: 4,875*
+*Total matches: 4,933*
