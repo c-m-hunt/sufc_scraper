@@ -12,7 +12,7 @@ This project scrapes match data from multiple sources and consolidates them into
 - Season
 - Optional: attendance, referee, scorers, lineup
 
-**Current database:** 4,926 matches
+**Current database:** 4,933 matches
 
 ## Project Structure
 
@@ -91,13 +91,14 @@ python main.py stats
 
 Output:
 ```
-Total matches: 4926
+Total matches: 4933
 
 Season Summary:
 ----------------------------------------------------------------------
 Season        Matches    W    D    L    GF    GA
 ----------------------------------------------------------------------
-2016-2017          52   20   12   20    75    77
+2015-2016          51   18   11   22    63    69
+2016-2017          52   22   13   17    75    62
 ...
 ```
 
@@ -112,7 +113,9 @@ Season        Matches    W    D    L    GF    GA
 
 ## Using 11v11 Scraper
 
-The 11v11.com website uses Cloudflare protection, requiring browser automation:
+The 11v11.com website uses Cloudflare protection, which blocks standard HTTP requests. This requires browser automation to bypass.
+
+### Option 1: Using the Python Scraper
 
 ```python
 from scrapers.eleven_v_eleven import ElevenVElevenScraper, fetch_with_playwright
@@ -131,7 +134,38 @@ for match in matches:
     db.upsert_match(match)
 ```
 
-Or use Claude Code with the Playwright MCP to navigate to `https://www.11v11.com/teams/southend-united/tab/matches/season/YEAR/` and extract table data directly.
+### Option 2: Using Claude Code with Playwright MCP
+
+When you have Claude Code with the Playwright MCP server configured, you can fetch data from Cloudflare-protected sites that would otherwise return 403 errors.
+
+**URL format:** `https://www.11v11.com/teams/southend-united/tab/matches/season/YEAR/`
+
+Note: The URL uses the **end year** of the season (e.g., `/season/2016/` for the 2015-16 season).
+
+**Steps:**
+1. Navigate to the season page using `browser_navigate`
+2. Extract table data using `browser_evaluate` with JavaScript:
+
+```javascript
+() => {
+  const table = document.querySelector('table');
+  const rows = Array.from(table.querySelectorAll('tbody tr'));
+  return rows.map(row => {
+    const cells = row.querySelectorAll('td');
+    return {
+      date: cells[0]?.textContent?.trim(),
+      match: cells[1]?.textContent?.trim(),
+      result: cells[2]?.textContent?.trim(),
+      score: cells[3]?.textContent?.trim(),
+      competition: cells[4]?.textContent?.trim()
+    };
+  });
+}
+```
+
+3. Parse the extracted data and insert into the database using the Match model
+
+This approach is useful for filling gaps in historical data that other sources don't cover.
 
 ## Data Model
 
