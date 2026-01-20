@@ -19,10 +19,12 @@ This project scrapes match data from multiple sources and consolidates them into
 ```
 sufc_history/
 ├── main.py                 # CLI entry point
+├── export_excel.py         # Excel export script
 ├── data/
 │   ├── matches.db          # SQLite database
 │   ├── all_matches.csv     # Exported CSV
-│   └── all_matches.json    # Exported JSON
+│   ├── all_matches.json    # Exported JSON
+│   └── matches_by_decade.xlsx  # Excel export (by decade)
 ├── models/
 │   └── match.py            # Match dataclass
 ├── scrapers/
@@ -81,7 +83,12 @@ python main.py export --format csv -o data/all_matches.csv
 
 # Export to JSON
 python main.py export --format json -o data/all_matches.json
+
+# Export to Excel (grouped by decade)
+python export_excel.py
 ```
+
+The Excel export creates `data/matches_by_decade.xlsx` with separate tabs for each decade (1910s, 1920s, etc.).
 
 ### Viewing Statistics
 
